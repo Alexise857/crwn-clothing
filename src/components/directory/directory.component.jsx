@@ -49,8 +49,12 @@ class DirectoryComponent extends Component {
             <>
                 <div className="directory-menu">
                     {
-                        this.state.sections.map(({id, title, imageUrl, size}) => (
-                            <MenuItem key={id} title={title} imageUrl={imageUrl} size={size}/>
+                        // Since it handles a lot of more destrcutrying and most of the names are the same, we can use spreed operator
+                        // this.state.sections.map(({id, title, imageUrl, size, linkUrl }) => (
+                        //     <MenuItem key={id} title={title} imageUrl={imageUrl} size={size} linkUrl={linkUrl}/>
+                        // ))
+                        this.state.sections.map(({id, ...otherSectionProps}) => (
+                            <MenuItem key={id} {...otherSectionProps}/>
                         ))
                     }
                 </div>
