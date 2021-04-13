@@ -10,15 +10,27 @@ import Header from "./components/header/header.component";
 import SignInAndSignUpPage from "./pages/sign-in-and-sign-up/sign-in-and-sign-up.component";
 import {setCurrentUser} from "./redux/user/user.actions";
 
-import {auth} from "./firebase/firebase.utils";
+import {auth, createUserProfileDocument} from "./firebase/firebase.utils";
 
 class App extends React.Component {
     unsubscribeFromAuth = null
 
     componentDidMount() {
         const {setCurrentUser} = this.props
-        this.unsubscribeFromAuth = auth.onAuthStateChanged(user => {
-            console.log({user})
+        this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
+            console.log({userAuth});
+            if (userAuth) {
+                const userRef = await createUserProfileDocument(userAuth);
+                userRef.onSnapshot(snapShot => {
+                    setCurrentUser({
+                        currentUser: {
+                            id: snapShot.id,
+                            ...snapShot.data()
+                        }
+                    });
+                });
+            }
+            setCurrentUser({currentUser: userAuth});
         })
     }
 
