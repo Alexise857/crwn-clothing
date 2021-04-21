@@ -1,16 +1,16 @@
 import React from "react";
 import {Route, Switch, Redirect} from 'react-router-dom';
 import {connect} from 'react-redux'
+import {setCurrentUser} from "./redux/user/user.actions";
 
-import './App.css';
+import {auth, createUserProfileDocument} from "./firebase/firebase.utils";
 
 import HomePage from "./pages/homepages/homepage.component";
 import ShopComponent from "./pages/shop/shop.component";
 import Header from "./components/header/header.component";
 import SignInAndSignUpPage from "./pages/sign-in-and-sign-up/sign-in-and-sign-up.component";
-import {setCurrentUser} from "./redux/user/user.actions";
 
-import {auth, createUserProfileDocument} from "./firebase/firebase.utils";
+import './App.css';
 
 class App extends React.Component {
     unsubscribeFromAuth = null
